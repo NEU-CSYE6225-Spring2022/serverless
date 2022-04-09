@@ -46,7 +46,7 @@ public class MainHandler implements RequestHandler<SNSEvent, Object> {
                                         .withCharset("UTF-8").withData(TEXTBODY)))
                         .withSubject(new Content()
                                 .withCharset("UTF-8").withData(SUBJECT)))
-                .withSource("lambda@"+domainName);
+                .withSource("verify@"+domainName);
         client.sendEmail(request);
         System.out.println("Email sent!");
 
