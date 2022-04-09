@@ -34,4 +34,4 @@ jobs:
 
     - name: Pushing Artifact to S3
       run: | 
-        aws s3 sync target/serverlessLambda.jar s3://${{ secrets.S3_LAMBDA_BUCKET }}
+        aws s3 cp target/serverlessLambda.jar s3://${{ secrets.S3_LAMBDA_BUCKET }}
