@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+  - EmailVerificationLambda:
+      type: "AWS::Lambda::Function"
+      properties:
+        name: EmailVerificationLambda
+        alias: EmailVerificationLambdaAlias
+        currentversion: 1
+        targetversion: 2
