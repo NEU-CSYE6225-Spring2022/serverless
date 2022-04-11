@@ -1,4 +1,4 @@
-name: Assignment-09-SNS
+name: Lambda-Serverless-Main-Push
 
 on:
   push:
