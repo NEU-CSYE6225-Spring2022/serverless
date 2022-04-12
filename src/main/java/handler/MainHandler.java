@@ -34,6 +34,7 @@ public class MainHandler implements RequestHandler<SNSEvent, Object> {
         String TEXTBODY = "This email was sent to Verify your email. Please copy and paste the below link in a Browser. "
                 + url;
 
+        lambdaLogger.log("Url used to send mail : "+ url);
         AmazonSimpleEmailService client  =  AmazonSimpleEmailServiceClientBuilder.standard()
                 .withRegion("us-east-1").build();
         SendEmailRequest request = new SendEmailRequest()
@@ -47,9 +48,11 @@ public class MainHandler implements RequestHandler<SNSEvent, Object> {
                         .withSubject(new Content()
                                 .withCharset("UTF-8").withData(SUBJECT)))
                 .withSource("verify@"+domainName);
+
+        lambdaLogger.log("Trying to send mail");
         client.sendEmail(request);
         System.out.println("Email sent!");
 
-        return null;
+        return new Object();
     }
 }
