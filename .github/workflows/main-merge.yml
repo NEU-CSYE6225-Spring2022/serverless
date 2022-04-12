@@ -47,7 +47,7 @@ jobs:
     - name: Update lambda function
       run: |
         aws lambda update-function-code --publish --function-name EmailVerificationLambda --s3-bucket ${{ secrets.S3_LAMBDA_BUCKET }} --s3-key ${{ env.ARTIFACT_NAME }}
-    
-    - name : Publish lambda function
-      run: |
-        aws lambda publish-version --function-name EmailVerificationLambda
+
+    - name: Wait for Update
+      run: | 
+        aws lambda function-updated --function-name EmailVerificationLambda
