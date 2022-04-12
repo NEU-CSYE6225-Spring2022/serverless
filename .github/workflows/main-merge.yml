@@ -38,4 +38,4 @@ jobs:
     
     - name: Update lambda function
       run: |
-        aws lambda update-function-code --function-name EmailVerificationLambda --s3-bucket ${{ secrets.S3_LAMBDA_BUCKET }} --s3-key serverlessLambda.jar
+        aws lambda update-function-code --publish --function-name EmailVerificationLambda --s3-bucket ${{ secrets.S3_LAMBDA_BUCKET }} --s3-key serverlessLambda.jar
