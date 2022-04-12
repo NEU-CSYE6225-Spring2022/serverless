@@ -35,11 +35,12 @@ public class MainHandler implements RequestHandler<SNSEvent, Object> {
                 + url;
 
         lambdaLogger.log("Url used to send mail : "+ url);
-        lambdaLogger.log("New version deployed : 01");
+        lambdaLogger.log("New version deployed : 02");
         try {
-
+            lambdaLogger.log("Building client for SES");
             AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
                     .withRegion("us-east-1").build();
+            lambdaLogger.log("Building request Object for SES");
             SendEmailRequest request = new SendEmailRequest()
                     .withDestination(new Destination().withToAddresses(contents[0]))
                     .withMessage(new Message()
