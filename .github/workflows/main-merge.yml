@@ -35,3 +35,7 @@ jobs:
     - name: Pushing Artifact to S3
       run: | 
         aws s3 cp target/serverlessLambda.jar s3://${{ secrets.S3_LAMBDA_BUCKET }}
+    
+    - name: Update lambda function
+      run: |
+        aws lambda update-function-code --function-name EmailVerificationLambda --s3-bucket ${{ secrets.S3_LAMBDA_BUCKET }} --s3-key serverlessLambda.jar
