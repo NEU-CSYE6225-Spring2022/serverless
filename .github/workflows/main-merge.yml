@@ -23,7 +23,7 @@ jobs:
         java-version: '17'
 
     - name: Building Jar file
-      run: mvn package
+      run: mvn clean install package
 
     - name: Checking AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -47,7 +47,3 @@ jobs:
     - name: Update lambda function
       run: |
         aws lambda update-function-code --publish --function-name EmailVerificationLambda --s3-bucket ${{ secrets.S3_LAMBDA_BUCKET }} --s3-key ${{ env.ARTIFACT_NAME }}
-
-    - name: Wait for Update
-      run: | 
-        aws lambda function-updated --function-name EmailVerificationLambda
