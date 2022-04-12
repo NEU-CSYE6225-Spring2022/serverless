@@ -35,22 +35,28 @@ public class MainHandler implements RequestHandler<SNSEvent, Object> {
                 + url;
 
         lambdaLogger.log("Url used to send mail : "+ url);
-        AmazonSimpleEmailService client  =  AmazonSimpleEmailServiceClientBuilder.standard()
-                .withRegion("us-east-1").build();
-        SendEmailRequest request = new SendEmailRequest()
-                .withDestination(new Destination().withToAddresses(contents[0]))
-                .withMessage(new Message()
-                        .withBody(new Body()
-                                .withHtml(new Content()
-                                        .withCharset("UTF-8").withData(HTMLBODY))
-                                .withText(new Content()
-                                        .withCharset("UTF-8").withData(TEXTBODY)))
-                        .withSubject(new Content()
-                                .withCharset("UTF-8").withData(SUBJECT)))
-                .withSource("verify@"+domainName);
+        try {
 
-        lambdaLogger.log("Trying to send mail");
-        client.sendEmail(request);
+            AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
+                    .withRegion("us-east-1").build();
+            SendEmailRequest request = new SendEmailRequest()
+                    .withDestination(new Destination().withToAddresses(contents[0]))
+                    .withMessage(new Message()
+                            .withBody(new Body()
+                                    .withHtml(new Content()
+                                            .withCharset("UTF-8").withData(HTMLBODY))
+                                    .withText(new Content()
+                                            .withCharset("UTF-8").withData(TEXTBODY)))
+                            .withSubject(new Content()
+                                    .withCharset("UTF-8").withData(SUBJECT)))
+                    .withSource("verify@" + domainName);
+
+            lambdaLogger.log("Trying to send mail");
+            client.sendEmail(request);
+        }catch (Exception e){
+            lambdaLogger.log(e.getMessage());
+            lambdaLogger.log("Error in sending mail");
+        }
         System.out.println("Email sent!");
 
         return new Object();
