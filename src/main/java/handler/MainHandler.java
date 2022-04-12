@@ -52,8 +52,10 @@ public class MainHandler implements RequestHandler<SNSEvent, Object> {
                     .withSource("verify@" + domainName);
 
             lambdaLogger.log("Trying to send mail");
-            client.sendEmail(request);
-        }catch (Exception e){
+            SendEmailResult sendEmailResult = client.sendEmail(request);
+            lambdaLogger.log(sendEmailResult.getMessageId());
+            lambdaLogger.log(sendEmailResult.getSdkResponseMetadata().toString());
+        }catch (MessageRejectedException e){
             lambdaLogger.log(e.getMessage());
             lambdaLogger.log("Error in sending mail");
         }
