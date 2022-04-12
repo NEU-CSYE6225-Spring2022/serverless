@@ -1,5 +1,8 @@
 name: Lambda-Serverless-Main-Push
 
+env:
+  ARTIFACT_NAME: serverlessLambda-${{ github.sha }}.jar
+
 on:
   push:
     branches: [ main ]
@@ -33,9 +36,18 @@ jobs:
       run: ls -l
 
     - name: Pushing Artifact to S3
-      run: | 
-        aws s3 cp target/serverlessLambda.jar s3://${{ secrets.S3_LAMBDA_BUCKET }}
+      run: |
+        cp target/serverlessLambda.jar target/${{ env.ARTIFACT_NAME }}
+        aws s3 cp target/${{ env.ARTIFACT_NAME }} s3://${{ secrets.S3_LAMBDA_BUCKET }}
     
+    - name: Displaying contents of target folder
+      working-directory: target
+      run: ls -l
+
     - name: Update lambda function
       run: |
-        aws lambda update-function-code --publish --function-name EmailVerificationLambda --s3-bucket ${{ secrets.S3_LAMBDA_BUCKET }} --s3-key serverlessLambda.jar
+        aws lambda update-function-code --publish --function-name EmailVerificationLambda --s3-bucket ${{ secrets.S3_LAMBDA_BUCKET }} --s3-key ${{ env.ARTIFACT_NAME }}
+    
+    - name : Publish lambda function
+      run: |
+        aws lambda publish-version --function-name EmailVerificationLambda
