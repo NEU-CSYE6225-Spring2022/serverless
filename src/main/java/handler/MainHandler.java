@@ -43,7 +43,7 @@ public class MainHandler implements RequestHandler<SNSEvent, Object> {
             String domainName = System.getenv("domainName");
             lambdaLogger.log("Logging the domain name used for Sending email: "+ domainName);
 
-            String url = "http://"+domainName+"/v1/VerifyUserEmail?"+"email="+contents[0]+"&token="+contents[1];
+            String url = "https://"+domainName+"/v1/VerifyUserEmail?"+"email="+contents[0]+"&token="+contents[1];
 
             String HTMLBODY = "<h1>Verify your Email</h1>"
                     + "<p>This email was sent to Verify your Email Address "
